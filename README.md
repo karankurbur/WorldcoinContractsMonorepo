@@ -5,7 +5,7 @@ https://www.notion.so/worldcoin/World-App-Smart-Contracts-Encyclopedia-348dd5aca
 
 Sepolia Contract Addresses
 
-SafeDeployer - 0x7C26Bcc8936E49D90ED9C7413287C3F77C784a58
+SafeDeployer - 0x7387d78b5a77639c162b8cb60c3dc416e930cf79
 USDC - 0xa8a4Ff4DeA78FA4634B6279591DFead74c826a56
 WBTC - 0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef 
 WETH - 0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4
