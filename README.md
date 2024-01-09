@@ -69,3 +69,6 @@ How to deploy Uniswapv3 on a new network
 
 // TODO: Determine a good starting price for the pool
 Don't use the Factory directly to create the pool, use the NFTManager as it will also initialize it with an starting price.
+
+
+https://github.com/Uniswap/docs/blob/main/examples/sdk/AddAndRemoveLiquidity.tsx
