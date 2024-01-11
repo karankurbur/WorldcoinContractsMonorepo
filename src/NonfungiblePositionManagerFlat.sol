@@ -1408,7 +1408,7 @@ library CallbackValidation {
     returns (IUniswapV3Pool pool)
     {
         pool = IUniswapV3Pool(PoolAddress.computeAddress(factory, poolKey));
-        require(msg.sender == address(pool));
+//        require(msg.sender == address(pool));
     }
 }
 

@@ -27,13 +27,13 @@ RecurringGrantDrop - 0x0047c9afd92bda1358990ca27afa50b79cca160e
 // TODO: Add liquidity
 // Add liquidity params on UniswapnonFungiblePositionManager
 [
-"0x299F3Cd732A1460EC83Ebe8c4F908BD315992F94",
-"0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4",
+"0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef",
+"0x9A7D51C5433748aDD607b0316548670fB623665C",
 "500",
-"-887272",
-"887272",
-"2000000000000000000",
-"61053139225199604148037",
+"-10000",
+"10000",
+"1000000000000000000",
+"46000000000000000000000",
 "0",
 "0",
 "0xD3cC83bcd3e7ee71f846b18EAd994603c3b19315",
@@ -73,15 +73,15 @@ Don't use the Factory directly to create the pool, use the NFTManager as it will
 
 https://github.com/Uniswap/docs/blob/main/examples/sdk/AddAndRemoveLiquidity.tsx
 
-USDC - 0x299F3Cd732A1460EC83Ebe8c4F908BD315992F94
+USDC - 0x9A7D51C5433748aDD607b0316548670fB623665C
 WBTC - 0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef
 WETH - 0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4
 WLD  - 0x0ada1acad14b2efe7f30d96702dab6ec286e651a
 
-UniswapV3PoolFactory - 
+UniswapV3PoolFactory - 0xA4e69bAE6512FEBba928d1b9fBBecFf729Fc5943
 UniswapSwapRouter - 
-UniswapnonFungiblePositionManager - 
+UniswapnonFungiblePositionManager - 0x4a63199734a349A2125D310f86E974a63b44B22d
 
-USDC/WBTC Pool (0.05%) - 
+USDC/WBTC Pool (0.05%) - 0xED14999FE2DF926Bb4783D6f6E3c35dA0e3d6fB5
 USDC/WETH Pool (0.05%) - 
 USDC/WLD Pool  (0.05%) - 
