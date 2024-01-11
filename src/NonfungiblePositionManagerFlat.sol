@@ -1838,6 +1838,47 @@ abstract contract LiquidityManagement is IUniswapV3MintCallback, PeripheryImmuta
 
         require(amount0 >= params.amount0Min && amount1 >= params.amount1Min, 'Price slippage check');
     }
+
+    /// @notice Add liquidity to an initialized pool
+    function addLiquidity2(AddLiquidityParams memory params, address poolAddress)
+    internal
+    returns (
+        uint128 liquidity,
+        uint256 amount0,
+        uint256 amount1,
+        IUniswapV3Pool pool
+    )
+    {
+        PoolAddress.PoolKey memory poolKey =
+                            PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee});
+
+        pool = IUniswapV3Pool(poolAddress);
+
+        // compute the liquidity amount
+        {
+            (uint160 sqrtPriceX96, , , , , , ) = pool.slot0();
+            uint160 sqrtRatioAX96 = TickMath.getSqrtRatioAtTick(params.tickLower);
+            uint160 sqrtRatioBX96 = TickMath.getSqrtRatioAtTick(params.tickUpper);
+
+            liquidity = LiquidityAmounts.getLiquidityForAmounts(
+                sqrtPriceX96,
+                sqrtRatioAX96,
+                sqrtRatioBX96,
+                params.amount0Desired,
+                params.amount1Desired
+            );
+        }
+
+        (amount0, amount1) = pool.mint(
+            params.recipient,
+            params.tickLower,
+            params.tickUpper,
+            liquidity,
+            abi.encode(MintCallbackData({poolKey: poolKey, payer: msg.sender}))
+        );
+
+        require(amount0 >= params.amount0Min && amount1 >= params.amount1Min, 'Price slippage check');
+    }
 }
 
 
@@ -3916,6 +3957,63 @@ SelfPermit
 
         emit IncreaseLiquidity(tokenId, liquidity, amount0, amount1);
     }
+
+    function mint2(MintParams calldata params, address poolAddress)
+    external
+    payable
+    checkDeadline(params.deadline)
+    returns (
+        uint256 tokenId,
+        uint128 liquidity,
+        uint256 amount0,
+        uint256 amount1
+    )
+    {
+        IUniswapV3Pool pool;
+        (liquidity, amount0, amount1, pool) = addLiquidity2(
+            AddLiquidityParams({
+                token0: params.token0,
+                token1: params.token1,
+                fee: params.fee,
+                recipient: address(this),
+                tickLower: params.tickLower,
+                tickUpper: params.tickUpper,
+                amount0Desired: params.amount0Desired,
+                amount1Desired: params.amount1Desired,
+                amount0Min: params.amount0Min,
+                amount1Min: params.amount1Min
+            }),
+            poolAddress
+        );
+
+        _mint(params.recipient, (tokenId = _nextId++));
+
+        bytes32 positionKey = PositionKey.compute(address(this), params.tickLower, params.tickUpper);
+        (, uint256 feeGrowthInside0LastX128, uint256 feeGrowthInside1LastX128, , ) = pool.positions(positionKey);
+
+        // idempotent set
+        uint80 poolId =
+                        cachePoolKey(
+                address(pool),
+                PoolAddress.PoolKey({token0: params.token0, token1: params.token1, fee: params.fee})
+            );
+
+        _positions[tokenId] = Position({
+            nonce: 0,
+            operator: address(0),
+            poolId: poolId,
+            tickLower: params.tickLower,
+            tickUpper: params.tickUpper,
+            liquidity: liquidity,
+            feeGrowthInside0LastX128: feeGrowthInside0LastX128,
+            feeGrowthInside1LastX128: feeGrowthInside1LastX128,
+            tokensOwed0: 0,
+            tokensOwed1: 0
+        });
+
+        emit IncreaseLiquidity(tokenId, liquidity, amount0, amount1);
+    }
+
 
     modifier isAuthorizedForToken(uint256 tokenId) {
         require(_isApprovedOrOwner(msg.sender, tokenId), 'Not approved');

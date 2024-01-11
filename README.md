@@ -7,8 +7,8 @@ Sepolia Contract Addresses
 
 SafeDeployer - 0x7387d78b5a77639c162b8cb60c3dc416e930cf79
 
-USDC - 0xa8a4Ff4DeA78FA4634B6279591DFead74c826a56
-WBTC - 0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef 
+USDC (6 decimals) - 0xa8a4Ff4DeA78FA4634B6279591DFead74c826a56
+WBTC - '0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef' 
 WETH - 0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4
 WLD  - 0x0ada1acad14b2efe7f30d96702dab6ec286e651a
 
@@ -26,31 +26,32 @@ RecurringGrantDrop - 0x0047c9afd92bda1358990ca27afa50b79cca160e
 
 // TODO: Add liquidity
 // Add liquidity params on UniswapnonFungiblePositionManager
-["0xa8a4Ff4DeA78FA4634B6279591DFead74c826a56",
-"0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef",
+[
+"0x299F3Cd732A1460EC83Ebe8c4F908BD315992F94",
+"0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4",
 "500",
 "-887272",
 "887272",
-"1000000000000000000",
-"1000000000000000000",
+"2000000000000000000",
+"61053139225199604148037",
 "0",
 "0",
 "0xD3cC83bcd3e7ee71f846b18EAd994603c3b19315",
-"1799456414"
+"1707637494"
 ]
 
 {
-address token0
-address token1;
-uint24 fee;
-int24 tickLower;
-int24 tickUpper;
-uint256 amount0Desired;
-uint256 amount1Desired;
-uint256 amount0Min;
-uint256 amount1Min;
-address recipient;
-uint256 deadline;
+    address token0
+    address token1;
+    uint24 fee;
+    int24 tickLower;
+    int24 tickUpper;
+    uint256 amount0Desired;
+    uint256 amount1Desired;
+    uint256 amount0Min;
+    uint256 amount1Min;
+    address recipient;
+    uint256 deadline;
 }
 
 
@@ -70,5 +71,17 @@ How to deploy Uniswapv3 on a new network
 // TODO: Determine a good starting price for the pool
 Don't use the Factory directly to create the pool, use the NFTManager as it will also initialize it with an starting price.
 
-
 https://github.com/Uniswap/docs/blob/main/examples/sdk/AddAndRemoveLiquidity.tsx
+
+USDC - 0x299F3Cd732A1460EC83Ebe8c4F908BD315992F94
+WBTC - 0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef
+WETH - 0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4
+WLD  - 0x0ada1acad14b2efe7f30d96702dab6ec286e651a
+
+UniswapV3PoolFactory - 
+UniswapSwapRouter - 
+UniswapnonFungiblePositionManager - 
+
+USDC/WBTC Pool (0.05%) - 
+USDC/WETH Pool (0.05%) - 
+USDC/WLD Pool  (0.05%) - 

@@ -1833,4 +1833,3 @@ SelfPermit
         amountInCached = DEFAULT_AMOUNT_IN_CACHED;
     }
 }
-
