@@ -5,26 +5,13 @@ https://www.notion.so/worldcoin/World-App-Smart-Contracts-Encyclopedia-348dd5aca
 
 Sepolia Contract Addresses
 
+// Wallet Deployments
 SafeDeployer - 0x7387d78b5a77639c162b8cb60c3dc416e930cf79
 
-USDC (6 decimals) - 0xa8a4Ff4DeA78FA4634B6279591DFead74c826a56
-WBTC - '0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef' 
-WETH - 0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4
-WLD  - 0x0ada1acad14b2efe7f30d96702dab6ec286e651a
-
-UniswapV3PoolFactory - 0xa4e69bae6512febba928d1b9fbbecff729fc5943
-UniswapSwapRouter - 0xC8E8034A6D65b448CEC00f65B3BC94A73d464A8e
-UniswapnonFungiblePositionManager - 0xAc2b92C05a78010AcB0082d115908D5b0C1bee97
-
-USDC/WBTC Pool (0.05%) - 0xAEaC40FDE29F51B5B9fb967a7Eec378F7EB67Bb1
-USDC/WETH Pool (0.05%) - 0x0C8086C5EC44FA9B2D2CeB668f8c8E635668f253
-USDC/WLD Pool  (0.05%) - 0xA030547Ab6659c39F2fD29d0F2a962Bb280f6727
-
 // Grants
-StagingGrant - 0x16db5b91bdae98bbf827f9f0e7e17d0601b1045a
-RecurringGrantDrop - 0x0047c9afd92bda1358990ca27afa50b79cca160e
+StagingGrant - 0xda5C5fDbB0588b57B0aa32D74bB24000f8E771d7
+RecurringGrantDrop - 0x9452c25d331aB02f9EF195123b69D68Edb413343
 
-// TODO: Add liquidity
 // Add liquidity params on UniswapnonFungiblePositionManager
 [
 "0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef",
@@ -54,8 +41,6 @@ RecurringGrantDrop - 0x0047c9afd92bda1358990ca27afa50b79cca160e
     uint256 deadline;
 }
 
-
-
 How to deploy Uniswapv3 on a new network
 1. Deploy Uniswapv3Factory
 2. Deploy WETH, WBTC, WLD, USDC
@@ -66,28 +51,6 @@ How to deploy Uniswapv3 on a new network
 7. Deploy UniswapnonFungiblePositionManager with Uniswapv3Factory + WETH addresses + any address for NonfungibleTokenPositionDescriptor
 8. From EOA, grant approval for each token to the UniswapnonFungiblePositionManager
 9. Call mint function on ApprovalSwapRouter to provide liquidity for each pool
-
-
-// TODO: Determine a good starting price for the pool
-Don't use the Factory directly to create the pool, use the NFTManager as it will also initialize it with an starting price.
-
-https://github.com/Uniswap/docs/blob/main/examples/sdk/AddAndRemoveLiquidity.tsx
-
-USDC - 0x9A7D51C5433748aDD607b0316548670fB623665C
-WBTC - 0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef
-WETH - 0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4
-WLD  - 0x0ada1acad14b2efe7f30d96702dab6ec286e651a
-
-UniswapV3PoolFactory - 0xA4e69bAE6512FEBba928d1b9fBBecFf729Fc5943
-UniswapSwapRouter - 
-UniswapnonFungiblePositionManager - 0x4a63199734a349A2125D310f86E974a63b44B22d
-
-USDC/WBTC Pool (0.05%) - 0xED14999FE2DF926Bb4783D6f6E3c35dA0e3d6fB5
-USDC/WETH Pool (0.05%) - 
-USDC/WLD Pool  (0.05%) - 
-
-++++ FINAL ATTEMPT ++++
-
 
 
 USDC - 0xEec4b8B5DE989f3edBA8E3aD23af1E94c5794eac
