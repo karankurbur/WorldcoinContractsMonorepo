@@ -10,7 +10,11 @@ SafeDeployer - 0x7387d78b5a77639c162b8cb60c3dc416e930cf79
 
 // Grants
 StagingGrant - 0xda5C5fDbB0588b57B0aa32D74bB24000f8E771d7
-RecurringGrantDrop - 0x9452c25d331aB02f9EF195123b69D68Edb413343
+RecurringGrantDrop - 0xA3aDda8E928B6ec8ff203e0e736a3d09804f9038
+
+// Deploy RecurringGrantDrop
+// 0x11cA3127182f7583EfC416a8771BD4d11Fae4334, 1, 0x3dc20aaab0bC4a02E38F2b617AcDD5b333F0bf7a, 0xD3cC83bcd3e7ee71f846b18EAd994603c3b19315, 0xda5C5fDbB0588b57B0aa32D74bB24000f8E771d7
+// Router, groupId, token, spender, grant
 
 // Add liquidity params on UniswapnonFungiblePositionManager
 [
