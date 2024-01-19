@@ -9,11 +9,11 @@ Sepolia Contract Addresses
 SafeDeployer - 0x7387d78b5a77639c162b8cb60c3dc416e930cf79
 
 // Grants
-StagingGrant - 0xda5C5fDbB0588b57B0aa32D74bB24000f8E771d7
-RecurringGrantDrop - 0xA3aDda8E928B6ec8ff203e0e736a3d09804f9038
+StagingGrant - 0x9aeb96599882f6178518C15172C87D093C7Bc7dd
+RecurringGrantDrop - 0xa462Ba3295c13a94B33E6330d9f06F8a4501eD68
 
 // Deploy RecurringGrantDrop
-// 0x11cA3127182f7583EfC416a8771BD4d11Fae4334, 1, 0x3dc20aaab0bC4a02E38F2b617AcDD5b333F0bf7a, 0xD3cC83bcd3e7ee71f846b18EAd994603c3b19315, 0xda5C5fDbB0588b57B0aa32D74bB24000f8E771d7
+// 0x11cA3127182f7583EfC416a8771BD4d11Fae4334, 1, 0x223369abAfBbF7F96c2a17cD7b6d4D6dB03aeEB0, 0xD3cC83bcd3e7ee71f846b18EAd994603c3b19315, 0x9aeb96599882f6178518C15172C87D093C7Bc7dd
 // Router, groupId, token, spender, grant
 
 // Add liquidity params on UniswapnonFungiblePositionManager
@@ -67,18 +67,10 @@ UniswapnonFungiblePositionManager - 0x4C9cb855170372BfABcCeD87Fb0306A19a55bBD8
 UniswapSwapRouter - 0x403616fBc3D2d0E9a0aBAf7cDCbc6611F41f7142
 ApprovalSwapRouter - 0x07f1c09794bC50cED3C9C6aA1746b4B9B633872C
 
-1000000000000000000000000
-1000000000000000000000000000000000000
-[ "0xEec4b8B5DE989f3edBA8E3aD23af1E94c5794eac", "0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4", "500", "-887270", "887270", "1000000000000000000000000000000000000", "1000000000000000000000000", "0", "0", "0xD3cC83bcd3e7ee71f846b18EAd994603c3b19315", "1707637494" ]
-
-https://sepolia-optimism.etherscan.io/tx/0xa62e7819d5c5755a73daddf8c1e6c1c0bd6db98b48e7200782d89b435aa0d842
-https://sepolia-optimism.etherscan.io/tx/0x377902ab3ec408a27848ff48c074226940b085dc7ca8361ba36400172b4175a3
-https://sepolia-optimism.etherscan.io/tx/0x1d2c7e9c2b5a6cb1a0cbcb2d52b557041ec327213d72d50a9112954b86c79664
-
-
 NOTE: UNISWAP CONTRACTS MUST BE DEPLOYED THROUGH its repo
 
-Hardhat config snippet:
+Hardhat config snippet to verify contract
+HARDHAT FIX VERIFICATION - https://ethereum.stackexchange.com/questions/120358/typeerror-etherscan-apikey-trim-is-not-a-function-with-multiple-api-keys
 ```
   etherscan: {
     apiKey: {
@@ -97,9 +89,6 @@ Hardhat config snippet:
   },
 ```
 
-HARDHAT FIX VERIFICATION - https://ethereum.stackexchange.com/questions/120358/typeerror-etherscan-apikey-trim-is-not-a-function-with-multiple-api-keys
-
-
 
 Deploy new factory, nft manager, add liquidity, swapRouter, approvalSwapRouter
 
@@ -108,8 +97,48 @@ Deploying Uniswap
 2. Deploy NFT Manager from v3-periphery with factory param.
 NOTE:   REPLACE `function tokenURI(uint256 tokenId) public view override(ERC721, IERC721Metadata)`  with a dummy string else u need to deploy another contract for the tokenMetadataURI. Use any address for this param in the NFTManager deployment.
 3. Approve tokens to NFT Manager
-4. Deploy pools with createAndInitializePoolIfNecessary on NFTManager. Calculate sqrtPriceX96 using sqrtpricex96.ts - you have to switch the price depending on the token ordering between USDC and other token. 
-5. 
+4. Deploy pools with createAndInitializePoolIfNecessary on NFTManager. Calculate sqrtPriceX96 using sqrtpricex96.ts - you have to switch the price depending on the token ordering between USDC and other token.
 5. Deploy SwapRouter from v3-periphery
 6. Deploy ApprovalSwapRouter from v3-periphery with SwapRouter as param
 
+
+
+TxBundler Changes
+1. Update configs for transferBundler and swapBundler with new token addresses - https://github.com/worldcoin/tx-bundler/blob/main/contracts/config/config.json
+2. Update updates for claimBundler with newly deployed grant contracts. It will be the same for all 3.
+3. `export STAGE=<STAGE>`
+4. Deploy ClaimStaging.yul - NOTE: rename ClaimStaging.yul to Claim.yul and use the ClaimDeployer script. 
+5. Deploy ClaimReserved.yul
+6. Deploy SwapSwap.yul - update the hardcoded ApprovalSwapAddress
+7. Deploy SafeTransfer.yul
+8. Deploy Multicall3.sol
+9. Update contract addresses in each strategy file (claim_bundler.rs, claim_reserved_bundler.rs, swap_bundler.rs, transfer_bundler.rs, fall_backbundler.rs) //TODO: Move to config files
+10. Redeploy TxBundler
+
+Note: If any of the contract fail to deploy, try changing the salt in the DeployerScript
+```
+cd contracts
+
+export STAGE=<STAGE>
+
+forge script \
+    "script/SafeSwapDeployer.s.sol:SafeSwapDeployer" \
+    --broadcast \
+    --rpc-url https://opt-sepolia.g.alchemy.com/v2/API_KEY \
+    --private-key PRIVATE_KEY \
+    --sender 0xD3cC83bcd3e7ee71f846b18EAd994603c3b19315 \
+    --json \
+    --silent \
+    -C src/SafeSwap.yul
+
+```
+
+
+Backend Changes
+1. Update app-config (UniswapRouter) -> use the new ApprovalSwap contract address - https://github.com/worldcoin/product/pull/4689/files#diff-c035a723ab8608252b1000c26582551858b013cd5e2bcf2c35097bbb84a9d39aR59
+2. Update tokens parameters -> use the new ApprovalSwap contract address and tokens - https://github.com/worldcoin/product/pull/4683/files#diff-92338c97f51da608e4e9a1c414ed9eb7485656ab48bb9c18639a1cc804f461aaR21-R31
+
+Grant Changes
+1. Deploy StagingGrant
+2. Deploy RecurringGrantDrop with Router, group 1, token, spender, grant as params
+3. Grant approval from spender to RecurringGrantDrop
