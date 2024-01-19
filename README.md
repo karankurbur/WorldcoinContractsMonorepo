@@ -64,8 +64,8 @@ WLD  - 0x223369abAfBbF7F96c2a17cD7b6d4D6dB03aeEB0
 
 UniswapV3PoolFactory - 0x5a26a2AbFe972cf20aEfFB180F64a331044e74f3
 UniswapnonFungiblePositionManager - 0x4C9cb855170372BfABcCeD87Fb0306A19a55bBD8
-ApprovalSwapRouter - 
-UniswapSwapRouter - 
+UniswapSwapRouter - 0x403616fBc3D2d0E9a0aBAf7cDCbc6611F41f7142
+ApprovalSwapRouter - 0x07f1c09794bC50cED3C9C6aA1746b4B9B633872C
 
 
 USDC/WBTC Pool (0.05%) - 
