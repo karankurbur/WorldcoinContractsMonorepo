@@ -14,8 +14,8 @@ const fee = 500;
 const OWNER = "0xD3cC83bcd3e7ee71f846b18EAd994603c3b19315"
 
 calculateSwapRate(USDC, WBTC, 46000)
-// calculateSwapRate(USDC, WETH, 2600)
-// calculateSwapRate(USDC, WLD, 3)
+calculateSwapRate(USDC, WETH, 2600)
+calculateSwapRate(USDC, WLD, 3)
 
 function calculateSwapRate(USDC: string, OTHER_TOKEN: string, price: number) {
     if(USDC > OTHER_TOKEN) {
