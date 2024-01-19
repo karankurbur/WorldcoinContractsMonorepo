@@ -28,7 +28,7 @@ RecurringGrantDrop - 0xA3aDda8E928B6ec8ff203e0e736a3d09804f9038
 "0",
 "0",
 "0xD3cC83bcd3e7ee71f846b18EAd994603c3b19315",
-"1707637494"
+"1807637494"
 ]
 
 {
@@ -62,15 +62,15 @@ WBTC - 0x396458af3Bc363B0c41ce1EEbe356Cf8A00F0aef
 WETH - 0xf17201f6a5b0658dd7a90468e499ab6cb67e5eb4
 WLD  - 0x3dc20aaab0bC4a02E38F2b617AcDD5b333F0bf7a
 
+UniswapV3PoolFactory - 0x5a26a2AbFe972cf20aEfFB180F64a331044e74f3
+UniswapnonFungiblePositionManager - 0x4C9cb855170372BfABcCeD87Fb0306A19a55bBD8
+ApprovalSwapRouter - 
+UniswapSwapRouter - 
 
-ApprovalSwapRouter - 0x31C021E3a087245Cbe86675d7D6F9395ea03e938
-UniswapV3PoolFactory - 0xA4e69bAE6512FEBba928d1b9fBBecFf729Fc5943
-UniswapSwapRouter - 0x3942a43321eb86a177e6ce6E3E9E846D93F0A03C
-UniswapnonFungiblePositionManager - 0x4a63199734a349A2125D310f86E974a63b44B22d
 
-USDC/WBTC Pool (0.05%) - 0x67BFED85286db8705a9b534cC846085b921a0d7C
-USDC/WETH Pool (0.05%) - 0x4B428ca59F3C9ff5D9715C9E72Bf3C8b8AC3e0ca
-USDC/WLD Pool  (0.05%) - 0x1d802a35Fe7ef1E1A9DF4eEbc597DEeEa3aE2ebE
+USDC/WBTC Pool (0.05%) - 
+USDC/WETH Pool (0.05%) - 
+USDC/WLD Pool  (0.05%) - 
 
 1000000000000000000000000
 1000000000000000000000000000000000000
@@ -79,3 +79,42 @@ USDC/WLD Pool  (0.05%) - 0x1d802a35Fe7ef1E1A9DF4eEbc597DEeEa3aE2ebE
 https://sepolia-optimism.etherscan.io/tx/0xa62e7819d5c5755a73daddf8c1e6c1c0bd6db98b48e7200782d89b435aa0d842
 https://sepolia-optimism.etherscan.io/tx/0x377902ab3ec408a27848ff48c074226940b085dc7ca8361ba36400172b4175a3
 https://sepolia-optimism.etherscan.io/tx/0x1d2c7e9c2b5a6cb1a0cbcb2d52b557041ec327213d72d50a9112954b86c79664
+
+
+NOTE: UNISWAP CONTRACTS MUST BE DEPLOYED THROUGH its repo
+
+Hardhat config snippet:
+```
+  etherscan: {
+    apiKey: {
+      optimism: "API_KEY"
+    },
+    customChains: [
+      {
+        network: "optimism",
+        chainId: 11155420,
+        urls: {
+          apiURL: "https://api-sepolia-optimistic.etherscan.io/api",
+          browserURL: "https://sepolia-optimism.etherscan.io"
+        }
+      }
+    ]
+  },
+```
+
+HARDHAT FIX VERIFICATION - https://ethereum.stackexchange.com/questions/120358/typeerror-etherscan-apikey-trim-is-not-a-function-with-multiple-api-keys
+
+
+
+Deploy new factory, nft manager, add liquidity, swapRouter, approvalSwapRouter
+
+Deploying Uniswap
+1. Deploy Factory from v3-core
+2. Deploy NFT Manager from v3-periphery with factory param.
+NOTE:   REPLACE `function tokenURI(uint256 tokenId) public view override(ERC721, IERC721Metadata)`  with a dummy string else u need to deploy another contract for the tokenMetadataURI. Use any address for this param in the NFTManager deployment.
+3. Approve tokens to NFT Manager
+4. Deploy pools with createAndInitializePoolIfNecessary on NFTManager. Calculate sqrtPriceX96 using sqrtpricex96.ts - you have to switch the price depending on the token ordering between USDC and other token. 
+5. 
+5. Deploy SwapRouter from v3-periphery
+6. Deploy ApprovalSwapRouter from v3-periphery with SwapRouter as param
+
